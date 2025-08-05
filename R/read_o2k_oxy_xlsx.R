@@ -9,6 +9,7 @@
 #' @examples # read_o2k_oxy_xlsx(input_files = tidymito_example_o2_data.xlsx")
 #'
 #' @export
+
 read_o2k_oxy_xlsx <- function(
       input_files = "NULL",
       sheet = "Specific flux (bc)"
@@ -33,22 +34,38 @@ read_o2k_oxy_xlsx <- function(
     )
 
   # load in measurement data
-  o2k_values <- readxl::read_xlsx(
-    path = input_files[1],
-    sheet = sheet,
-    col_names = TRUE,
-    na = "",
-    trim_ws = TRUE,
-    .name_repair = "unique_quiet"
-  )[-c(1,2), ] |>
-    dplyr::select(
-      tidyr::matches(names(protcol_info))
+  o2k_values <- dplyr::bind_cols(
+    readxl::read_xlsx(
+      path = input_files[1],
+      sheet = sheet,
+      col_names = TRUE,
+      skip = 2,
+      na = "",
+      trim_ws = TRUE,
+      .name_repair = "unique_quiet"
     ) |>
-    dplyr::filter(!is.na(.data[[names(protcol_info)[1]]]))
+      dplyr::select(
+        ! dplyr::contains(sheet)
+      ) |>
+      dplyr::filter(!is.na( `ID#` )) ,
+    readxl::read_xlsx(
+      path = input_files[1],
+      sheet = sheet,
+      col_names = TRUE,
+      na = "",
+      trim_ws = TRUE,
+      .name_repair = "unique_quiet"
+    )[-c(1,2), ] |>
+      dplyr::select(
+        tidyr::matches(names(protcol_info))
+      ) |>
+      dplyr::filter(!is.na(.data[[names(protcol_info)[1]]]))
+  )
 
 
   if(length(input_files) != 1) {
 
+    # check that SUIT protocols are consitent across files
     for (input in c(2:length(input_files))) {
       protocol_info_2 <- readxl::read_xlsx(
         path = input_files[input],
@@ -69,11 +86,26 @@ read_o2k_oxy_xlsx <- function(
       }
     }
 
+    # if SUIT protocols are consistent, read and combine the oxygen measurements
     for (input in c(2:length(input_files))) {
 
       o2k_values <- dplyr::bind_rows(
         o2k_values,
-        readxl::read_xlsx(
+        dplyr::bind_cols(
+          readxl::read_xlsx(
+            path = input_files[input],
+            sheet = sheet,
+            col_names = TRUE,
+            skip = 2,
+            na = "",
+            trim_ws = TRUE,
+            .name_repair = "unique_quiet"
+          ) |>
+            dplyr::select(
+              ! dplyr::contains(sheet)
+            ) |>
+            dplyr::filter(!is.na( `ID#` )) ,
+          readxl::read_xlsx(
             path = input_files[input],
             sheet = sheet,
             col_names = TRUE,
@@ -81,15 +113,14 @@ read_o2k_oxy_xlsx <- function(
             trim_ws = TRUE,
             .name_repair = "unique_quiet"
           )[-c(1,2), ] |>
-          dplyr::select(
-            tidyr::matches(names(protcol_info))
-          ) |>
-          dplyr::filter(
-            !is.na(.data[[names(protcol_info)[1]]])
-          )
+            dplyr::select(
+              tidyr::matches(names(protcol_info))
+            ) |>
+            dplyr::filter(!is.na(.data[[names(protcol_info)[1]]]))
         )
-
+      )
     }
+
   }
 
   o2k_values <- o2k_values
