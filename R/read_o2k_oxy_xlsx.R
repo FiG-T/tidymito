@@ -1,6 +1,16 @@
+#' Import oxygen flux data from one or more O2k-formatted excel files
+#'
+#' @param input_files A character string (or vector of character strings) containing the path(s) to the input file(s). Every input file should follow the same format as the Oroboros template and follow the same SUIT protocol. If paths to multiple files are provided, these will be combined in the final output.
+#'
+#' @param sheet The sheet in the supplied excel files from which the oxygen flux measurements will be retrieved. By default set to 'Specific flux (bc)'.
+#'
+#' @returns A single tibble with oxygen flux data.
+#'
+#' @examples # read_o2k_oxy_xlsx(input_files = tidymito_example_o2_data.xlsx")
+#'
+#' @export
 read_o2k_oxy_xlsx <- function(
       input_files = "NULL",
-      output_file = "NULL",
       sheet = "Specific flux (bc)"
 ) {
 
