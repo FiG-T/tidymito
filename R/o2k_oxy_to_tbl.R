@@ -188,6 +188,10 @@ o2k_oxy_list_to_tbl <- function(
 
           break
 
+        } else if (state_tmp$o2_flux[measurement] < 0 ) {
+
+          counter <- 0
+
         } else { # if counter number has not been reached
 
           flux_change <- abs(state_tmp$o2_flux[measurement] - state_tmp$o2_flux[measurement-1])
@@ -221,6 +225,15 @@ o2k_oxy_list_to_tbl <- function(
     )
 
   }
+
+  outout_tibble <- outout_tibble |>
+    dplyr::filter(!is.na(meanflux)) |>
+    tidyr::pivot_wider(
+      names_from = chamber,
+      values_from = meanflux
+  )
+
+  names(outout_tibble) <- c("state", "mean_o2_flux_left", "mean_o2_flux_right")
 
   output <- outout_tibble
 
