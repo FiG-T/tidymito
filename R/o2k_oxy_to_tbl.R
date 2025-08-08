@@ -14,7 +14,8 @@ o2k_oxy_to_list <- function(
 
   tmp_csv <- readr::read_csv(
     #file = system.file("extdata", "2025-03-03 P1-01 NDi1-OE x gal4 vs NDi1-OE ctrl.csv", package = "tidymito")
-    file = csv
+    file = csv,
+    show_col_types = FALSE
   )
 
   # check for WARNING events
@@ -22,7 +23,7 @@ o2k_oxy_to_list <- function(
     warning(
       paste0(
         "WARNING events present in data (e.g: low Oxygen levels). You are advised to check the contents of file: ",
-        csv, " before continuing. These events will be disregarded going forwards."
+        csv, " before continuing. These events will be disregarded going forwards. \n"
         )
       )
   }
@@ -114,7 +115,11 @@ o2k_oxy_list_to_tbl <- function(
       window_sizes <- rep(window_sizes, length(unique_events))
 
   } else if (length(window_sizes) != length(unique_events)) {
-      stop("The number of window sizes provided must exactly match the number of unique events")
+      stop(
+        paste0(
+          "The number of window sizes provided must exactly match the number of unique events (", length(unique_events), ") \n"
+        )
+      )
   }
 
   # check that the change thresholds vector matches the number of states supplied:
@@ -224,7 +229,7 @@ o2k_oxy_list_to_tbl <- function(
           )
 
           warning(
-            paste0("End point of state ", unique_events[event], " reached without threshold being met. Returning average from final window: TREAT WITH CAUTION. You are suggested to adjust either the window size for this state or the change threshold.")
+            paste0("End point of state ", unique_events[event], " reached without threshold being met. Returning average from final window: TREAT WITH CAUTION. You are suggested to adjust either the window size for this state or the change threshold. \n")
           )
 
           break
@@ -268,8 +273,24 @@ o2k_oxy_list_to_tbl <- function(
       values_from = meanflux
   )
 
-  names(outout_tibble) <- c("state", "mean_o2_flux_left", "mean_o2_flux_right")
+  names(outout_tibble) <- c("state", "mean_o2_flux_A", "mean_o2_flux_B")
 
   output <- outout_tibble
+
+}
+
+
+
+oxy_tbl_pivot_wider <- function(
+        data,
+        info_col
+){
+
+  tmp_tbl <- data |>
+    tidyr::separate_wider_position(
+      cols = info_col,
+      too_many = "drop",
+      widths = 10
+    )
 
 }
