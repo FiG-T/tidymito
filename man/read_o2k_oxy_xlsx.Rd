@@ -21,3 +21,10 @@ Import oxygen flux data from one or more O2k-formatted excel files
 # read_o2k_oxy_xlsx(input_files = tidymito_example_o2_data.xlsx")
 
 }
+\seealso{
+Other read o2k files: 
+\code{\link{o2k_oxy_list_to_tbl}()},
+\code{\link{o2k_oxy_to_list}()},
+\code{\link{read_o2k_oxy_csv}()}
+}
+\concept{read o2k files}
