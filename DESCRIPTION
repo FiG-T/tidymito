@@ -17,3 +17,6 @@ Imports:
     stringr
 URL: https://github.com/FiG-T/tidymito
 BugReports: https://github.com/FiG-T/tidymito/issues
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
