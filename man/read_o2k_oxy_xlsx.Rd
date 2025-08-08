@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_o2k_oxy_xlsx.R
 \name{read_o2k_oxy_xlsx}
 \alias{read_o2k_oxy_xlsx}
-\title{Import oxygen flux data from one or more O2k-formatted excel files}
+\title{Import oxygen flux data from one or more O2k-formatted Excel Files}
 \usage{
 read_o2k_oxy_xlsx(input_files = "NULL", sheet = "Specific flux (bc)")
 }
@@ -15,11 +15,7 @@ read_o2k_oxy_xlsx(input_files = "NULL", sheet = "Specific flux (bc)")
 A single tibble with oxygen flux data.
 }
 \description{
-Import oxygen flux data from one or more O2k-formatted excel files
-}
-\examples{
-# read_o2k_oxy_xlsx(input_files = tidymito_example_o2_data.xlsx")
-
+Import oxygen flux data from one or more O2k-formatted Excel Files
 }
 \seealso{
 Other read o2k files: 
