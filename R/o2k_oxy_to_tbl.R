@@ -7,7 +7,12 @@
 #' @returns A list of 3 elements; a list of raw oxygen flux measurements per chamber, opening time details, and unique events.
 #' @export
 #'
+#' @family read o2k files
+#'
 #' @examples
+#'  data <- tidymito::o2k_oxy_to_list(csv = "path/to/data/file.csv")
+#'
+#'
 o2k_oxy_to_list <- function(
       csv = "NULL"
 ) {
@@ -90,9 +95,36 @@ o2k_oxy_to_list <- function(
 #' @param change_thresholds A numeric value specifying the tolerance for change between consecutive O2K measurements. Changes less than this value will be considered 'stable'.
 #'
 #' @returns A tibble with three columns: state, oxygen flux in left chamber, oxygen flux in right chamber.
+#'
+#' @family read o2k files
+#'
 #' @export
 #'
 #' @examples
+#'  example_data <- o2k_oxy_list_to_tbl(
+#'    chamber_list = test_data[[1]],
+#'    unique_events = unique_events,
+#'    open_timings = test_data[[2]],
+#'    treat_opening = "after",
+#'    window_sizes = 15,
+#'    change_thresholds = 1
+#'    )
+#'
+#'  # using output from `o2k_oxy_to_list()`:
+#'
+#'  # get unique events
+#'    unique_events <- unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left)[!is.na(unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left))]
+#'    unique_events <- unique_events[!unique_events %in% c("your_event")]
+#'
+#'  example_data <- o2k_oxy_list_to_tbl(
+#'    chamber_list = output_from_o2k_oxy_to_list[[1]],
+#'    unique_events = unique_events,
+#'    open_timings = output_from_o2k_oxy_to_list[[2]],
+#'    treat_opening = "after",
+#'    window_sizes = 15,
+#'    change_thresholds = 1
+#'    )
+#'
 o2k_oxy_list_to_tbl <- function(
       chamber_list,
       unique_events,
@@ -273,7 +305,7 @@ o2k_oxy_list_to_tbl <- function(
       values_from = meanflux
   )
 
-  names(outout_tibble) <- c("state", "mean_o2_flux_A", "mean_o2_flux_B")
+  names(outout_tibble) <- c("state", "mean_o2_flux_a", "mean_o2_flux_b")
 
   output <- outout_tibble
 
@@ -281,16 +313,87 @@ o2k_oxy_list_to_tbl <- function(
 
 
 
-oxy_tbl_pivot_wider <- function(
+#' Format Tibble Output From `o2k_oxy_list_to_tbl()` Into More Convenient Structure
+#'
+#' This function extracts information on run data, O2K machine number and sample IDs from a user-defined column and converts the tibble into a cleaner structure.  This can either be in a 'wide' (one column per state, one row per sample) or 'longer' (each row is one state in one sample) format.
+#'
+#' @param data A tibble with at least four columns: one with information to extract, one with the respiratory state, and one for each chamber.
+#'
+#' @param info_col A character string of the name of the column containing the information to extract. Defaults to `filename`.
+#'
+#' @param sample_identifiers A vector of character strings that can be used to identify a sample. For example: if the samples are "abc - ctrl" (Chamber A) and "xyz - ctrl" (Chamber B), then `sample_identifiers = c("abc - ctrl", "xyz - ctrl")`. *Each identifier must uniquely match a specific sample* and the **specified information column must contain identifiers for both samples: if this is not correct the sole sample ID name will be duplicated for both Chambers.**
+#'
+#' @param wider Whether to return a wide (one column per state, one row per sample) or longer (each row is one state in one sample) tibble. Must be TRUE or FALSE.
+#'
+#' @returns A tibble containing formatted oxygen flux values.
+#' @export
+#'
+#' @examples
+#'  example_data <-  oxy_tbl_format(
+#'    data = output_from_o2k_oxy_list_to_tbl,
+#'    info_col = "filename",
+#'    sample_identifiers = c("NDi1-OE x gal4", "NDi1-OE ctrl"),
+#'    wider = FALSE
+#'   )
+#'
+#'
+#'
+#'
+oxy_tbl_format <- function(
         data,
-        info_col
+        info_col = "filename",
+        sample_identifiers = "NULL",
+        wider = FALSE
 ){
 
+  # extract standard file identifiers
   tmp_tbl <- data |>
     tidyr::separate_wider_position(
-      cols = info_col,
+      cols = .data[[info_col]],
       too_many = "drop",
-      widths = 10
+      widths = c("date" = 10, "machine"= 3, blank = 1, run = 2),
+      cols_remove = FALSE
     )
+
+  if (sample_identifiers[1] != "NULL") {
+
+    sample_id_regex <- stringr::str_flatten(sample_identifiers, collapse = "|")
+
+    tmp_tbl <- tmp_tbl |>
+      dplyr::rowwise() |>
+      dplyr::mutate(
+        id_a = stringi::stri_extract_first_regex(
+          str = .data[[info_col]],
+          pattern = sample_id_regex
+        ),
+        id_b = stringi::stri_extract_last_regex(
+          str = .data[[info_col]],
+          pattern = sample_id_regex
+        )
+      )
+
+  } else stop("No sample identifiers supplied")
+
+  tmp_tbl_a <- tmp_tbl |>
+    dplyr::select(
+      date:state, id = id_a, o2_flux = mean_o2_flux_a
+    )
+  tmp_tbl_b <- tmp_tbl |>
+    dplyr::select(
+      date:state, id = id_b, o2_flux = mean_o2_flux_b
+    )
+
+  tmp_tbl <- dplyr::bind_rows(
+    tmp_tbl_a,
+    tmp_tbl_b
+  )
+
+  if (wider == TRUE) {
+    output_tbl <- tmp_tbl |>
+      tidyr::pivot_wider(
+        names_from = state,
+        values_from = o2_flux
+      )
+  } else output_tbl <- tmp_tbl
 
 }

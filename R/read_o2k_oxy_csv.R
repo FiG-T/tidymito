@@ -19,6 +19,7 @@
 #'
 #' @param change_thresholds A numeric value specifying the tolerance for change between consecutive O2K measurements. Changes less than this value will be considered 'stable'.
 #' @param format_output A TRUE/FALSE statement about whether to neaten and format the output.
+#'
 #' @param sample_identifiers A vector of character strings that can be used to identify a sample.
 #'
 #' @param info_col A character string of the name of the column containing the information to extract. Defaults to `filename`.
@@ -27,10 +28,30 @@
 #'
 #' @family read o2k files
 #'
-#' @returns
+#' @returns A tibble (either wide, long, or unformatted)
 #' @export
 #'
 #' @examples
+#'  # basic functionality: read in data without specifying any formatting steps or window sizes:
+#'  testdata <- read_o2k_oxy_csv(
+#'    file_id = "2025-03-03.*.csv", # using provided example script
+#'    directory_path = "path/to/data/",
+#'    exclude_events = c("11As")
+#'    )
+#'
+#'  # basic functionality: read in data without specifying any formatting steps or window sizes:
+#'  testdata <- read_o2k_oxy_csv(
+#'    file_id = "2025-03-03.*.csv", # using provided example script
+#'    directory_path = "path/to/data/",
+#'    exclude_events = c("11As"),  # as this is added at the same time as 11Tm, remove 11As
+#'    treat_opening = "after",  # if a chamber is opened during a state, place the window after then chamber has re-oxygenated and closed.
+#'    window_sizes = 15,  # if a measurement is taken every 2 seconds, the signal must be stable for 30 (2x15) seconds to pass the cutoff.
+#'    change_thresholds = 1,
+#'    format_output = TRUE, # select that you want the output tibble to be formatted
+#'    sample_identifiers = c("NDi1-OE x gal4", "NDi1-OE ctrl"), # specify your unique sample identifiers
+#'    wide_output = FALSE # specify that you want the data to be returned in a 'wide' format.
+#'    )
+#'
 read_o2k_oxy_csv <- function(
       file_id = "*.csv",
       directory_path = "NULL",
@@ -116,18 +137,18 @@ read_o2k_oxy_csv <- function(
 
       output_tibble |> dplyr::filter(!is.na(filename))
 
+    } else {
+
+      message("Sample identifiers used. Ensure that all filenames have identifiers for both Chambers.")
+
+      # apply formatter function
+      output_tibble <- tidymito::oxy_tbl_format(
+        data = output_tibble |> dplyr::filter(!is.na(filename)),
+        info_col = info_col,
+        sample_identifiers = sample_identifiers,
+        wider = wide_output
+      )
     }
-
-    message("Sample identifiers used. Ensure that all filenames have identifiers for both Chambers.")
-
-    # apply formatter function
-    output_tibble <- tidymito::oxy_tbl_format(
-      data = output_tibble |> dplyr::filter(!is.na(filename)),
-      info_col = info_col,
-      sample_identifiers = sample_identifiers,
-      wider = wide_output
-    )
-
 
   }
 
