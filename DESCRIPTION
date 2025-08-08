@@ -1,9 +1,8 @@
 Package: tidymito
-Title: Convenient Analysis Of Mitochondrial Biology
+Title: Convenient Analysis Of Mitochondrial Measurements & Data
 Version: 0.0.0.9000
-Authors@R: 
-    person("Finley", "Grover-Thomas", , "finley.thomas.17@ucl.ac.uk", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: c(person("Finley", "Grover-Thomas", , "finley.thomas.17@ucl.ac.uk", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-0252-0128")), person("Enrique", "Rodriguez", role = c("aut"), comment = c(ORCID = "0000-0002-4605-2688")), person("Bella", "Peng", role = c("aut")))
+Description: A group of functions designed make analysis of mitochondrial physiology and associated phenotypes more convenient and reproducible. This includes importing and processing data produced by the Oroboros-O2K high resolution fluo-respirometer. 
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
