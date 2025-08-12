@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 tidymito aims to streamline (mitochondrial) biology research by automating common and repetitive data processing and analysis steps. Initial developments will be focused on reading and formatting measures of mitochondrial physiology from the **Oroboros O2K High Resolution Respirometer**, as well as more general measures of individual organism fitness (coming soon). 
 
-> Note: This package is early in development and is being maintained by academics, not software developers! Please bear with us as we figure things, and check that outputs are reasonable.  Let us know if you would like to contribute, all are welcome! 
+> Note: This package is early in development and is being maintained by academics, not software developers! Please bear with us as we figure things out, and check that outputs are reasonable.  Let us know if you would like to contribute, all are welcome! 
 
 ## Installation
 

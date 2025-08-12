@@ -20,7 +20,7 @@ fitness (coming soon).
 
 > Note: This package is early in development and is being maintained by
 > academics, not software developers! Please bear with us as we figure
-> things, and check that outputs are reasonable. Let us know if you
+> things out, and check that outputs are reasonable. Let us know if you
 > would like to contribute, all are welcome!
 
 ## Installation
@@ -38,15 +38,15 @@ version of tidymito from [GitHub](https://github.com/) with:
 #>  
 #> → Will update 1 package.
 #> → Will download 1 package with unknown size.
-#> + tidymito 0.0.0.9000 → 0.0.0.9000 👷🏻‍♂️🔧 ⬇ (GitHub: 8c991b6)
+#> + tidymito 0.0.0.9000 → 0.0.0.9000 👷🏾🔧 ⬇ (GitHub: 579a8b4)
 #> ℹ Getting 1 pkg with unknown size
 #> ✔ Got tidymito 0.0.0.9000 (source) (9.21 MB)
 #> ℹ Packaging tidymito 0.0.0.9000
-#> ✔ Packaged tidymito 0.0.0.9000 (951ms)
+#> ✔ Packaged tidymito 0.0.0.9000 (993ms)
 #> ℹ Building tidymito 0.0.0.9000
-#> ✔ Built tidymito 0.0.0.9000 (1.2s)
-#> ✔ Installed tidymito 0.0.0.9000 (github::FiG-T/tidymito@8c991b6) (65ms)
-#> ✔ 1 pkg + 33 deps: kept 33, upd 1, dld 1 (NA B) [8.8s]
+#> ✔ Built tidymito 0.0.0.9000 (1.3s)
+#> ✔ Installed tidymito 0.0.0.9000 (github::FiG-T/tidymito@579a8b4) (59ms)
+#> ✔ 1 pkg + 33 deps: kept 33, upd 1, dld 1 (NA B) [25.8s]
 
 # OR 
 
