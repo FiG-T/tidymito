@@ -2,7 +2,5 @@ url: https://fig-t.github.io/tidymito/
 template:
   bootstrap: 5
   bslib:
-    bg: "#FFFFFF"
-    fg: "#340068"
     primary: "#F1A200"
 
