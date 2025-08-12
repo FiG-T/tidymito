@@ -29,7 +29,7 @@ tidymito aims to streamline (mitochondrial) biology research by automating commo
 
 ## Installation
 
-You can install the development version of tidymito from [GitHub](https://github.com/) with:
+tidymito is not (yet?) on CRAN, but you can install the development version of tidymito from [GitHub](https://github.com/) with:
 
 ```{r install, echo = TRUE}
 # using pak: 
