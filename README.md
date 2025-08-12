@@ -16,7 +16,7 @@ automating common and repetitive data processing and analysis steps.
 Initial developments will be focused on reading and formatting measures
 of mitochondrial physiology from the **Oroboros O2K High Resolution
 Respirometer**, as well as more general measures of individual organism
-fitness.
+fitness (coming soon).
 
 > Note: This package is early in development and is being maintained by
 > academics, not software developers! Please bear with us as we figure
@@ -36,8 +36,17 @@ You can install the development version of tidymito from
  pak::pak("FiG-T/tidymito")
 #> ℹ Loading metadata database✔ Loading metadata database ... done
 #>  
-#> ℹ No downloads are needed
-#> ✔ 1 pkg + 33 deps: kept 34 [5.1s]
+#> → Will update 1 package.
+#> → Will download 1 package with unknown size.
+#> + tidymito 0.0.0.9000 → 0.0.0.9000 👷🏽🔧 ⬇ (GitHub: 04eee29)
+#> ℹ Getting 1 pkg with unknown size
+#> ✔ Got tidymito 0.0.0.9000 (source) (9.21 MB)
+#> ℹ Packaging tidymito 0.0.0.9000
+#> ✔ Packaged tidymito 0.0.0.9000 (966ms)
+#> ℹ Building tidymito 0.0.0.9000
+#> ✔ Built tidymito 0.0.0.9000 (1.2s)
+#> ✔ Installed tidymito 0.0.0.9000 (github::FiG-T/tidymito@04eee29) (58ms)
+#> ✔ 1 pkg + 33 deps: kept 33, upd 1, dld 1 (NA B) [13.9s]
 
 # OR 
 
