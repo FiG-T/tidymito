@@ -8,7 +8,7 @@
 #'
 #' @examples
 #'   # read in a file of interest
-#'     read_o2k_oxy_xlsx(input_files = tidymito_example_o2_data.xlsx")
+#'   #read_o2k_oxy_xlsx(input_files = "tidymito_example_o2_data.xlsx")
 #'
 #' @family read o2k files
 #'

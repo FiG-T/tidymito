@@ -3,5 +3,6 @@
 export(o2k_oxy_list_to_tbl)
 export(o2k_oxy_to_list)
 export(oxy_tbl_format)
+export(read_dams_activity_csv)
 export(read_o2k_oxy_csv)
 export(read_o2k_oxy_xlsx)

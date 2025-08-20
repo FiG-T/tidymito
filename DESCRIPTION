@@ -11,10 +11,14 @@ Imports:
     base,
     bslib,
     dplyr,
+    lubridate,
     magrittr,
+    readr,
     readxl,
     stringi,
-    stringr
+    stringr,
+    tibble,
+    tidyr
 URL: https://github.com/FiG-T/tidymito, https://fig-t.github.io/tidymito/
 BugReports: https://github.com/FiG-T/tidymito/issues
 Suggests: 

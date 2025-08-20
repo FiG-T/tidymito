@@ -14,7 +14,10 @@ test_that( "o2k_oxy_to_list", {
 
 test_that( "o2k_oxy_list_to_tbl", {
 
-  # using test data defined above
+  # using test data
+  test_data <- tidymito::o2k_oxy_to_list(
+    csv = system.file("extdata", "2025-03-03 P1-01 NDi1-OE x gal4 vs NDi1-OE ctrl.csv", package = "tidymito")
+  )
 
   # format unique events
   unique_events <- unique(test_data[[1]][[1]]$event_left)[!is.na(unique(test_data[[1]][[1]]$event_left))]

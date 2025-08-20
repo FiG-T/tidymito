@@ -50,24 +50,24 @@ If specified, sample information can be extracted from the .csv file names and a
 }
 \examples{
  # basic functionality: read in data without specifying any formatting steps or window sizes:
- testdata <- read_o2k_oxy_csv(
-   file_id = "2025-03-03.*.csv", # using provided example script
-   directory_path = "path/to/data/",
-   exclude_events = c("11As")
-   )
+ #testdata <- read_o2k_oxy_csv(
+ #  file_id = "2025-03-03.*.csv", # using provided example script
+ #  directory_path = "path/to/data/",
+ #  exclude_events = c("11As")
+ #  )
 
  # basic functionality: read in data without specifying any formatting steps or window sizes:
- testdata <- read_o2k_oxy_csv(
-   file_id = "2025-03-03.*.csv", # using provided example script
-   directory_path = "path/to/data/",
-   exclude_events = c("11As"),  # as this is added at the same time as 11Tm, remove 11As
-   treat_opening = "after",  # if a chamber is opened during a state, place the window after then chamber has re-oxygenated and closed.
-   window_sizes = 15,  # if a measurement is taken every 2 seconds, the signal must be stable for 30 (2x15) seconds to pass the cutoff.
-   change_thresholds = 1,
-   format_output = TRUE, # select that you want the output tibble to be formatted
-   sample_identifiers = c("NDi1-OE x gal4", "NDi1-OE ctrl"), # specify your unique sample identifiers
-   wide_output = FALSE # specify that you want the data to be returned in a 'wide' format.
-   )
+ #testdata <- read_o2k_oxy_csv(
+ #  file_id = "2025-03-03.*.csv", # using provided example script
+ #  directory_path = "path/to/data/",
+ #  exclude_events = c("11As"),  # as this is added at the same time as 11Tm, remove 11As
+ #  treat_opening = "after",  # if a chamber is opened during a state, place the window after then chamber has re-oxygenated and closed.
+  # window_sizes = 15,  # if a measurement is taken every 2 seconds, the signal must be stable for 30 (2x15) seconds to pass the cutoff.
+  # change_thresholds = 1,
+ #  format_output = TRUE, # select that you want the output tibble to be formatted
+ #  sample_identifiers = c("NDi1-OE x gal4", "NDi1-OE ctrl"), # specify your unique sample identifiers
+ #  wide_output = FALSE # specify that you want the data to be returned in a 'wide' format.
+ #  )
 
 }
 \seealso{
