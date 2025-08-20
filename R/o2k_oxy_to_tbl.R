@@ -101,20 +101,32 @@ o2k_oxy_to_list <- function(
 #' @export
 #'
 #' @examples
-#'  example_data <- o2k_oxy_list_to_tbl(
-#'    chamber_list = test_data[[1]],
-#'    unique_events = unique_events,
-#'    open_timings = test_data[[2]],
-#'    treat_opening = "after",
-#'    window_sizes = 15,
-#'    change_thresholds = 1
-#'    )
+#'   # load in test data
+#'   test_data <- tidymito::o2k_oxy_to_list(
+#'     csv = system.file(
+#'       "extdata",
+#'       "2025-03-03 P1-01 NDi1-OE x gal4 vs NDi1-OE ctrl.csv",
+#'       package = "tidymito"
+#'     )
+#'   )
+#'
+#'  #example_data <- o2k_oxy_list_to_tbl(
+#'  #  chamber_list = test_data[[1]],
+#'  #  unique_events = c(
+#'  #   "0Imt", "1P", "1M", "2D", "2c", "3G", "4Pro", "5S", "6Gp", "7U*", "8Rot",
+#'  #   "rot", "9Mn", "10Ama", "sham", "11O", "11Tm", "12Azd", "Azd"
+#'  #  ),
+#'  #  open_timings = test_data[[2]],
+#'  #  treat_opening = "after",
+#'  #  window_sizes = 15,
+#'  #  change_thresholds = 1
+#'  #  )
 #'
 #'  # using output from `o2k_oxy_to_list()`:
 #'
 #'  # get unique events
-#'    unique_events <- unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left)[!is.na(unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left))]
-#'    unique_events <- unique_events[!unique_events %in% c("your_event")]
+#'  #  unique_events <- unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left)[!is.na(unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left))]
+#'  #  unique_events <- unique_events[!unique_events %in% c("your_event")]
 #'
 #'  example_data <- o2k_oxy_list_to_tbl(
 #'    chamber_list = output_from_o2k_oxy_to_list[[1]],
@@ -189,31 +201,31 @@ o2k_oxy_list_to_tbl <- function(
         # either select only before the opening
         if (treat_opening == "before") {
 
-          state_tmp <- state_tmp %>%
+          state_tmp <- state_tmp |>
             dplyr::filter(
               time < dplyr::intersect(open_timings$time, state_tmp$time)
             )
         # or select only after opening and after either the minimum or maximim flux has been reached
         } else if (treat_opening == "after") {
 
-          state_tmp <- state_tmp %>%
+          state_tmp <- state_tmp |>
             dplyr::filter(
               time > dplyr::intersect(open_timings$time, state_tmp$time)
             )
 
-          zero_point <- state_tmp %>% dplyr::slice_min(abs(o2_flux)) %>% dplyr::pull(time)
-          max_point <- state_tmp %>% dplyr::slice_max(o2_flux) %>% dplyr::pull(time)
+          zero_point <- state_tmp |> dplyr::slice_min(abs(o2_flux)) |> dplyr::pull(time)
+          max_point <- state_tmp |> dplyr::slice_max(o2_flux) |> dplyr::pull(time)
 
           if (zero_point < max_point){
 
-            state_tmp <- state_tmp %>%
+            state_tmp <- state_tmp |>
               dplyr::filter(
                 time > zero_point
               )
 
           } else if ( zero_point > max_point) {
 
-            state_tmp <- state_tmp %>%
+            state_tmp <- state_tmp |>
               dplyr::filter(
                 time > max_point
               )
@@ -235,8 +247,8 @@ o2k_oxy_list_to_tbl <- function(
 
           state_tbl <- tibble::tibble(
             state = unique_events[event],
-            meanflux = state_tmp %>%
-              dplyr::slice((measurement-window_size):measurement) %>% dplyr::reframe(mean = mean(o2_flux)) %>% dplyr::pull(mean)
+            meanflux = state_tmp |>
+              dplyr::slice((measurement-window_size):measurement) |> dplyr::reframe(mean = mean(o2_flux)) |> dplyr::pull(mean)
           )
 
           chamber_tibble <- dplyr::bind_rows(
@@ -251,8 +263,8 @@ o2k_oxy_list_to_tbl <- function(
 
           state_tbl <- tibble::tibble(
             state = unique_events[event],
-            meanflux = state_tmp %>%
-              dplyr::slice((measurement-window_size):measurement) %>% dplyr::reframe(mean = mean(o2_flux)) %>% dplyr::pull(mean)
+            meanflux = state_tmp |>
+              dplyr::slice((measurement-window_size):measurement) |> dplyr::reframe(mean = mean(o2_flux)) |> dplyr::pull(mean)
           )
 
           chamber_tibble <- dplyr::bind_rows(
@@ -329,12 +341,12 @@ o2k_oxy_list_to_tbl <- function(
 #' @export
 #'
 #' @examples
-#'  example_data <-  oxy_tbl_format(
-#'    data = output_from_o2k_oxy_list_to_tbl,
-#'    info_col = "filename",
-#'    sample_identifiers = c("NDi1-OE x gal4", "NDi1-OE ctrl"),
-#'    wider = FALSE
-#'   )
+#'  #example_data <-  oxy_tbl_format(
+#'  #  data = output_from_o2k_oxy_list_to_tbl,
+#'  #  info_col = "filename",
+#'  #  sample_identifiers = c("NDi1-OE x gal4", "NDi1-OE ctrl"),
+#'  #  wider = FALSE
+#'  # )
 #'
 #'
 #'
