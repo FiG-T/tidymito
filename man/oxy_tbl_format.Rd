@@ -27,12 +27,12 @@ A tibble containing formatted oxygen flux values.
 This function extracts information on run data, O2K machine number and sample IDs from a user-defined column and converts the tibble into a cleaner structure.  This can either be in a 'wide' (one column per state, one row per sample) or 'longer' (each row is one state in one sample) format.
 }
 \examples{
- example_data <-  oxy_tbl_format(
-   data = output_from_o2k_oxy_list_to_tbl,
-   info_col = "filename",
-   sample_identifiers = c("NDi1-OE x gal4", "NDi1-OE ctrl"),
-   wider = FALSE
-  )
+ #example_data <-  oxy_tbl_format(
+ #  data = output_from_o2k_oxy_list_to_tbl,
+ #  info_col = "filename",
+ #  sample_identifiers = c("NDi1-OE x gal4", "NDi1-OE ctrl"),
+ #  wider = FALSE
+ # )
 
 
 
