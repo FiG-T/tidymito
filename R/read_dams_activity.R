@@ -16,6 +16,16 @@
 #' @export
 #'
 #' @examples
+#'  #
+#'  # read_dams_activity_csv(
+#'  #   "path/to/directory",
+#'  #   "folder_name",
+#'  #   ".*metafile.identifier.*",
+#'  #   "monitor",
+#'  #   "bloc",
+#'  #   3,
+#'  #   "DAMS_b)
+#'
 #'
 #'
 read_dams_activity_csv <- function(
@@ -120,13 +130,15 @@ read_dams_activity_csv <- function(
   # initiate list
   monitor_path_list <- list()
 
+  message("Combining activity and metadata...")
+
   # import and combine activity and metadata
   for (i in seq_along(monitor_list)) {
 
     bloc <- names(monitor_list)[i]
 
     bloc_path <- paste(
-      path,
+      dir_path,
       bloc,
       sep = "/"
     )
@@ -159,7 +171,7 @@ read_dams_activity_csv <- function(
     monitor <- monitor_list[[i]]
 
     if (numeric_bloc == TRUE){
-      # remove letters and punction from folder name
+      # remove letters and punctuation from folder name
       bloc <- stringr::str_replace_all(
         string = names(monitor_path_list[i]),
         pattern = "[:alpha:]|[:punct:]",
@@ -172,16 +184,19 @@ read_dams_activity_csv <- function(
     # loop through paths within a folder
     for (k in seq_along(path_lists)) {
 
-      tmp_table <- readr::read_csv(
+      message(path_lists[k])
+
+      tmp_table <- readr::read_tsv(
         file = path_lists[k],
-        col_names = FALSE
+        col_names = FALSE,
+        show_col_types = FALSE
       )
 
       tmp_table <- tmp_table[,c(1:4,10:42)]
 
       names(tmp_table) <- c(
         "index", "date", "time", "status", "light",
-        str_c(
+        stringr::str_c(
           "chamber_",
           c(1:32),
           sep = ""
@@ -213,7 +228,7 @@ read_dams_activity_csv <- function(
       tmp_table <- dplyr::left_join(
         x = tmp_table,
         y = monitor_info,
-        by = join_by(
+        by = dplyr::join_by(
           monitor == "monitor",
           bloc == "bloc"
         )
