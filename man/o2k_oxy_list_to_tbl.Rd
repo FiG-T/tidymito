@@ -33,20 +33,32 @@ A tibble with three columns: state, oxygen flux in left chamber, oxygen flux in 
 This function attempts to automate the extraction of relevant values from tables in the format of the Oroboros-O2K output csv. 'Stable' regions within each stage of the SUIT protocols are identified, with the mean values across these regions returned for downstream analysis. If multiple stable regions are present, the earliest (in terms of run time) will be used.  The requirements for "Stability" can be edited using the \code{window_size} and \code{change_threshold} arguments.  Negative values will not be considered.
 }
 \examples{
- example_data <- o2k_oxy_list_to_tbl(
-   chamber_list = test_data[[1]],
-   unique_events = unique_events,
-   open_timings = test_data[[2]],
-   treat_opening = "after",
-   window_sizes = 15,
-   change_thresholds = 1
-   )
+  # load in test data
+  test_data <- tidymito::o2k_oxy_to_list(
+    csv = system.file(
+      "extdata",
+      "2025-03-03 P1-01 NDi1-OE x gal4 vs NDi1-OE ctrl.csv",
+      package = "tidymito"
+    )
+  )
+
+ #example_data <- o2k_oxy_list_to_tbl(
+ #  chamber_list = test_data[[1]],
+ #  unique_events = c(
+ #   "0Imt", "1P", "1M", "2D", "2c", "3G", "4Pro", "5S", "6Gp", "7U*", "8Rot",
+ #   "rot", "9Mn", "10Ama", "sham", "11O", "11Tm", "12Azd", "Azd"
+ #  ),
+ #  open_timings = test_data[[2]],
+ #  treat_opening = "after",
+ #  window_sizes = 15,
+ #  change_thresholds = 1
+ #  )
 
  # using output from `o2k_oxy_to_list()`:
 
  # get unique events
-   unique_events <- unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left)[!is.na(unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left))]
-   unique_events <- unique_events[!unique_events \%in\% c("your_event")]
+ #  unique_events <- unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left)[!is.na(unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left))]
+ #  unique_events <- unique_events[!unique_events \%in\% c("your_event")]
 
  example_data <- o2k_oxy_list_to_tbl(
    chamber_list = output_from_o2k_oxy_to_list[[1]],
