@@ -110,6 +110,10 @@ o2k_oxy_to_list <- function(
 #'     )
 #'   )
 #'
+#'   #'  # get unique events
+#'  #  unique_events <- unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left)[!is.na(unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left))]
+#'  #  unique_events <- unique_events[!unique_events %in% c("your_event")]
+#'
 #'  #example_data <- o2k_oxy_list_to_tbl(
 #'  #  chamber_list = test_data[[1]],
 #'  #  unique_events = c(
@@ -122,20 +126,6 @@ o2k_oxy_to_list <- function(
 #'  #  change_thresholds = 1
 #'  #  )
 #'
-#'  # using output from `o2k_oxy_to_list()`:
-#'
-#'  # get unique events
-#'  #  unique_events <- unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left)[!is.na(unique(output_from_o2k_oxy_to_list[[1]][[1]]$event_left))]
-#'  #  unique_events <- unique_events[!unique_events %in% c("your_event")]
-#'
-#'  example_data <- o2k_oxy_list_to_tbl(
-#'    chamber_list = output_from_o2k_oxy_to_list[[1]],
-#'    unique_events = unique_events,
-#'    open_timings = output_from_o2k_oxy_to_list[[2]],
-#'    treat_opening = "after",
-#'    window_sizes = 15,
-#'    change_thresholds = 1
-#'    )
 #'
 o2k_oxy_list_to_tbl <- function(
       chamber_list,
