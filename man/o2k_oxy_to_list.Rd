@@ -16,7 +16,7 @@ A list of 3 elements; a list of raw oxygen flux measurements per chamber, openin
 \code{o2k_oxy_to_list()} extracts data from a csv file which has been produced by DatLab and the Oroboros O2K. The output is a list with three elements. Element one is itself a list of two elements (left and right), which contain the raw data and events for the left and right chambers respectively. Element two is a tibble containing details of when the chambers were opened; the third and final element is a vector of unique events from within the run (excluding 'open', 'closed', and 'warnings'). The results of this function are designed so that they can be directly passed into \code{o2k_oxy_list_to_tbl()}.
 }
 \examples{
- data <- tidymito::o2k_oxy_to_list(csv = "path/to/data/file.csv")
+ # data <- tidymito::o2k_oxy_to_list(csv = "path/to/data/file.csv")
 
 
 }

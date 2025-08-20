@@ -10,7 +10,7 @@
 #' @family read o2k files
 #'
 #' @examples
-#'  data <- tidymito::o2k_oxy_to_list(csv = "path/to/data/file.csv")
+#'  # data <- tidymito::o2k_oxy_to_list(csv = "path/to/data/file.csv")
 #'
 #'
 o2k_oxy_to_list <- function(
